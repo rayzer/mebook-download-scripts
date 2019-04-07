@@ -7,7 +7,7 @@
 // @match        *://pan.baidu.com/share/*
 // @match        *://mebook.cc/download.php*
 // @require      http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js
-// @version      0.0.1
+// @version      0.0.2
 // @grant        GM_addStyle
 // ==/UserScript==
 (function () {
@@ -93,7 +93,7 @@
         //百度网盘链接自动跳转
         if (window.location.href.indexOf("mebook.cc/download.php") != -1 ) {
             //example: href="http://pan.baidu.com/s/1i53So53"
-            var baidu_pan_link_pattern = /href="http?:\/\/pan.baidu.com\/s\/\w*/g;
+            var baidu_pan_link_pattern = /((?:https?:\/\/)?(?:yun|pan|eyun)\.baidu\.com\/(?:s\/\w*(((-)?\w*)*)?|share\/\S*\d\w*))/g;
             var new_address = activelink(baidu_pan_link_pattern);
             window.location.href=new_address;
         }
@@ -101,13 +101,13 @@
         //百度网盘提取码自动补全
         if (location_pathname.indexOf("/share/") != -1 && $("#accessCode") !== null) {
             var code = getCode();
-            $("#accessCode").val(code);
-            $("#submitBtn").click();
+            $('form input').val(code);
+            $('form a[title=提取文件]').click();
         }
 
         //TODO: 百度网盘自动进入目录
 
         //TODO: 百度网盘自动下载azw3,mobi,epub之一
-        
+
     });
 })();
